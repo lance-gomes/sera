@@ -1,0 +1,21 @@
+#! /bin/bash
+
+DAEMON=/usr/local/bin/vault
+ARG='server -config=/opt/vault/vault-store/vault.hcl'
+
+vault_start()
+{
+  start-stop-daemon --start --background --no-close --exec $DAEMON -- $ARG >>/opt/vault/vault-store/vault.log 2>&1
+  echo "Vault started"
+  return 0
+}
+
+case "$1" in
+  start)
+    vault_start
+    ;;
+  *)
+    echo "Invalid command"
+    exit 3
+    ;;
+esac
